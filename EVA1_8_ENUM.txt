@@ -1,0 +1,122 @@
+Type '\help' or '\?' for help; '\quit' to exit.
+ MySQL  JS > /sql
+Expected an operand but found / (SyntaxError)
+ MySQL  JS > /connect --mc javier@localhost
+Expected an operand but found / (SyntaxError)
+ MySQL  JS > \sql
+Switching to SQL mode... Commands end with ;
+ MySQL  SQL > \connect --mc javier@localhost
+Creating a Classic session to 'javier@localhost'
+Fetching global names for auto-completion... Press ^C to stop.
+Your MySQL connection id is 8
+Server version: 8.0.43 MySQL Community Server - GPL
+No default schema selected; type \use <schema> to set one.
+ MySQL  localhost:3306 ssl  SQL > use tbd1;
+Default schema set to `tbd1`.
+Fetching global names, object names from `tbd1` for auto-completion... Press ^C to stop.
+ MySQL  localhost:3306 ssl  tbd1  SQL > show tables;
++----------------+
+| Tables_in_tbd1 |
++----------------+
+| cliente        |
+| cliente_datos  |
+| customer       |
+| docente        |
+| persona        |
+| student        |
++----------------+
+6 rows in set (0.0991 sec)
+ MySQL  localhost:3306 ssl  tbd1  SQL > create table playeras(
+                                     -> id int not null auto_increment key,
+                                     -> nombre varchar(50) not null,
+                                     -> talla enum("x-small","small","medium","large","x-large","xx-large"));
+Query OK, 0 rows affected (2.8147 sec)
+ MySQL  localhost:3306 ssl  tbd1  SQL > desc playeras;
++--------+---------------------------------------------------------------+------+-----+---------+----------------+
+| Field  | Type                                                          | Null | Key | Default | Extra          |
++--------+---------------------------------------------------------------+------+-----+---------+----------------+
+| id     | int                                                           | NO   | PRI | NULL    | auto_increment |
+| nombre | varchar(50)                                                   | NO   |     | NULL    |                |
+| talla  | enum('x-small','small','medium','large','x-large','xx-large') | YES  |     | NULL    |                |
++--------+---------------------------------------------------------------+------+-----+---------+----------------+
+3 rows in set (0.0373 sec)
+ MySQL  localhost:3306 ssl  tbd1  SQL > insert into playeras(nombre, talla)
+                                     -> values("playera 1","small");
+Query OK, 1 row affected (0.4723 sec)
+ MySQL  localhost:3306 ssl  tbd1  SQL > insert into playeras(nombre, talla) values("playera 2",1);
+Query OK, 1 row affected (0.1979 sec)
+ MySQL  localhost:3306 ssl  tbd1  SQL > select * from playeras;
++----+-----------+---------+
+| id | nombre    | talla   |
++----+-----------+---------+
+|  1 | playera 1 | small   |
+|  2 | playera 2 | x-small |
++----+-----------+---------+
+2 rows in set (0.0006 sec)
+ MySQL  localhost:3306 ssl  tbd1  SQL > insert into playeras(nombre, talla)
+                                     -> values("playera 5",3),("playera 2",2);
+Query OK, 2 rows affected (0.1119 sec)
+
+Records: 2  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  tbd1  SQL > select * from playeras;
++----+-----------+---------+
+| id | nombre    | talla   |
++----+-----------+---------+
+|  1 | playera 1 | small   |
+|  2 | playera 2 | x-small |
+|  3 | playera 5 | medium  |
+|  4 | playera 2 | small   |
++----+-----------+---------+
+4 rows in set (0.0008 sec)
+ MySQL  localhost:3306 ssl  tbd1  SQL > create table ficha(
+                                     -> id int not null auto_increment key,
+                                     -> nombre varchar(50) not null,
+                                     -> apellidos varchar(50) not null,
+                                     -> fecha_nac date not null);
+Query OK, 0 rows affected (0.6572 sec)
+ MySQL  localhost:3306 ssl  tbd1  SQL > desc ficha;
++-----------+-------------+------+-----+---------+----------------+
+| Field     | Type        | Null | Key | Default | Extra          |
++-----------+-------------+------+-----+---------+----------------+
+| id        | int         | NO   | PRI | NULL    | auto_increment |
+| nombre    | varchar(50) | NO   |     | NULL    |                |
+| apellidos | varchar(50) | NO   |     | NULL    |                |
+| fecha_nac | date        | NO   |     | NULL    |                |
++-----------+-------------+------+-----+---------+----------------+
+4 rows in set (0.0038 sec)
+ MySQL  localhost:3306 ssl  tbd1  SQL > insert into ficha(nombre, apellidos, fecha_nac)
+                                     -> value("Juan","Perez","1992-03-12");
+Query OK, 1 row affected (0.0903 sec)
+ MySQL  localhost:3306 ssl  tbd1  SQL > select * from ficha;
++----+--------+-----------+------------+
+| id | nombre | apellidos | fecha_nac  |
++----+--------+-----------+------------+
+|  1 | Juan   | Perez     | 1992-03-12 |
++----+--------+-----------+------------+
+1 row in set (0.0007 sec)
+ MySQL  localhost:3306 ssl  tbd1  SQL > alter table ficha add carrera enum("ISC","ING-CIB","ARQ","LA","IGE","ING-IND","IDI");
+Query OK, 0 rows affected (0.5111 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  tbd1  SQL > desc ficha;
++-----------+--------------------------------------------------------+------+-----+---------+----------------+
+| Field     | Type                                                   | Null | Key | Default | Extra          |
++-----------+--------------------------------------------------------+------+-----+---------+----------------+
+| id        | int                                                    | NO   | PRI | NULL    | auto_increment |
+| nombre    | varchar(50)                                            | NO   |     | NULL    |                |
+| apellidos | varchar(50)                                            | NO   |     | NULL    |                |
+| fecha_nac | date                                                   | NO   |     | NULL    |                |
+| carrera   | enum('ISC','ING-CIB','ARQ','LA','IGE','ING-IND','IDI') | YES  |     | NULL    |                |
++-----------+--------------------------------------------------------+------+-----+---------+----------------+
+5 rows in set (0.0024 sec)
+ MySQL  localhost:3306 ssl  tbd1  SQL > insert into ficha(nombre, apellidos, fecha_nac, carrera) value("Jose","Perez","1992-03-12",2);
+Query OK, 1 row affected (0.0827 sec)
+ MySQL  localhost:3306 ssl  tbd1  SQL > select * from ficha;
++----+--------+-----------+------------+---------+
+| id | nombre | apellidos | fecha_nac  | carrera |
++----+--------+-----------+------------+---------+
+|  1 | Juan   | Perez     | 1992-03-12 | NULL    |
+|  2 | Jose   | Perez     | 1992-03-12 | ING-CIB |
++----+--------+-----------+------------+---------+
+2 rows in set (0.0009 sec)
+ MySQL  localhost:3306 ssl  tbd1  SQL >
